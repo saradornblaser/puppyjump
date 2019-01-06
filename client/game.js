@@ -8,22 +8,26 @@ spriteSheet.src = '/sprites.png'; // this is the URL (from client perspective)
 function sprite(options) {
   const spriteObj = { ...options };
   spriteObj.frameIndex = 0;
-  spriteObj.tickCount = 0,
-    spriteObj.ticksPerFrame = options.ticksPerFrame || 0;
-  spriteObj.numberOfFrames = options.numberOfFrames || 1;
-
+  spriteObj.tickCount = 0;
   spriteObj.render = () => {
-    spriteObj.context.drawImage(spriteObj.image, spriteObj.frameIndex * spriteObj.width / spriteObj.numberOfFrames, 0, spriteObj.width / spriteObj.numberOfFrames, spriteObj.height, 0, 0, spriteObj.width / spriteObj.numberOfFrames, spriteObj.height);
+    spriteObj.context.clearRect(0, 0, 21, 14);
+    spriteObj.context.drawImage(
+      spriteObj.image, // image src
+      spriteObj.frameIndex * spriteObj.width / spriteObj.numberOfFrames, // src x-coord
+      0, // src y -coord
+      spriteObj.width / spriteObj.numberOfFrames, // src width
+      spriteObj.height, // src height
+      0, // dest x-coord
+      0, // dest y-coord
+      spriteObj.width / spriteObj.numberOfFrames, // dest width
+      spriteObj.height // dest height
+    );
   }
 
+  let tickCount = 0;
   spriteObj.update = () => {
-    spriteObj.tickCount += 1;
-    if (spriteObj.tickCount > spriteObj.ticksPerFrame) {
-      spriteObj.tickCount = 0;
-      if (spriteObj.frameIndex < spriteObj.numberOfFrames) {
-        spriteObj.frameIndex += 1
-      }
-    }
+    tickCount++;
+    spriteObj.frameIndex = Math.floor(tickCount / 10) % spriteObj.numberOfFrames;
   }
   return spriteObj;
 }
@@ -40,17 +44,19 @@ let dog = sprite({
   ticksPerFrame: 10
 });
 
-spriteSheet.onload = () => {
-  dog.render();
-}
+//onload is a callback function, assign it to be animate
+spriteSheet.onload = animate;
 
-
-function gameLoop() {
-
-  window.requestAnimationFrame(gameLoop);
-
+function animate() {
   dog.update();
   dog.render();
+  window.requestAnimationFrame(animate);
 }
 
-spriteSheet.addEventListener("load", gameLoop);
+
+
+
+
+
+
+
