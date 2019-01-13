@@ -116,24 +116,27 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 //puppy class
 
-var spriteSheet = new Image();
-spriteSheet.src = '/sprites.png'; // this is the URL (from client perspective)
 
 var Puppy =
 /*#__PURE__*/
 function (_SpriteObject) {
   _inherits(Puppy, _SpriteObject);
 
-  function Puppy(width, height, image, nFrames, ticksPerFrame) {
+  function Puppy(opts) {
     var _this;
 
     _classCallCheck(this, Puppy);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Puppy).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Puppy).call(this, opts));
+    var width = opts.width,
+        height = opts.height,
+        image = opts.image,
+        nFrames = opts.nFrames,
+        ticksPerFrame = opts.ticksPerFrame;
     _this.width = width;
     _this.height = height;
     _this.image = image;
-    _this.nFrames = nFrames;
+    _this.numberOfFrames = nFrames;
     _this.ticksPerFrame = ticksPerFrame;
     return _this;
   }
@@ -141,8 +144,8 @@ function (_SpriteObject) {
   _createClass(Puppy, [{
     key: "render",
     value: function render() {
+      debugger;
       console.log('rendering');
-      this.context.clearRect(0, 0, spriteSheet.width, spriteSheet.height);
       this.context.drawImage(this.image, // image src
       this.frameIndex * this.width / this.numberOfFrames, // src x-coord
       0, // src y -coord
@@ -182,14 +185,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SpriteObject; });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var canvas = document.getElementById('my-canvas');
-var ctx = canvas.getContext('2d');
-
 var SpriteObject = //make class object
-function SpriteObject() {
+function SpriteObject(_ref) {
+  var context = _ref.context;
+
   _classCallCheck(this, SpriteObject);
 
-  this.context = ctx;
+  this.context = context;
   this.frameIndex = 0;
   this.tickCount = 0;
 };
@@ -207,22 +209,36 @@ function SpriteObject() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Puppy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Puppy */ "./client/Puppy.js");
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var _Puppy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Puppy */ "./client/Puppy.js");
 
 var spriteSheet = new Image();
 spriteSheet.src = '/sprites.png'; // this is the URL (from client perspective)
 
-var jumpingPuppy = new _Puppy__WEBPACK_IMPORTED_MODULE_0__["default"](42, 14, spriteSheet, 2, 10);
-console.log(jumpingPuppy);
+var canvas = document.getElementById('my-canvas');
+var context = canvas.getContext('2d');
+global.canvas = canvas;
 
-function animate() {
-  jumpingPuppy.update();
-  jumpingPuppy.render();
-  window.requestAnimationFrame(animate);
-} //onload is a callback function, assign it to be "animate"
+spriteSheet.onload = function () {
+  var jumpingPuppy = new _Puppy__WEBPACK_IMPORTED_MODULE_0__["default"]({
+    width: 42,
+    height: 14,
+    image: spriteSheet,
+    nFrames: 2,
+    ticksPerFrame: 10,
+    context: context,
+    canvas: canvas
+  });
 
+  function animate() {
+    jumpingPuppy.update();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    jumpingPuppy.render();
+    window.requestAnimationFrame(animate);
+  }
 
-spriteSheet.onload = animate;
+  animate();
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

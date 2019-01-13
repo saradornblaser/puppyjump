@@ -1,18 +1,26 @@
 import Puppy from './Puppy'
 const spriteSheet = new Image();
 spriteSheet.src = '/sprites.png'; // this is the URL (from client perspective)
+const canvas = document.getElementById('my-canvas');
+const context = canvas.getContext('2d');
 
-let jumpingPuppy = new Puppy(42, 14, spriteSheet, 2, 10);
-console.log(jumpingPuppy)
+global.canvas = canvas;
 
-function animate() {
-  jumpingPuppy.update();
-  jumpingPuppy.render();
-  window.requestAnimationFrame(animate);
+spriteSheet.onload = () => {
+  let jumpingPuppy = new Puppy({
+    width: 42,
+    height: 14,
+    image: spriteSheet,
+    nFrames: 2,
+    ticksPerFrame: 10,
+    context,
+    canvas
+  });
+  function animate() {
+    jumpingPuppy.update();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    jumpingPuppy.render();  
+    window.requestAnimationFrame(animate);
+  }
+  animate();
 }
-//onload is a callback function, assign it to be "animate"
-spriteSheet.onload = animate;
-
-
-
-

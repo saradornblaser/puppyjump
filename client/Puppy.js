@@ -1,21 +1,20 @@
 //puppy class
 import SpriteObject from './SpriteObject'
-const spriteSheet = new Image();
-spriteSheet.src = '/sprites.png'; // this is the URL (from client perspective)
 
 class Puppy extends SpriteObject {
-  constructor(width, height, image, nFrames, ticksPerFrame) {
-    super();
+  constructor(opts) {
+    super(opts);
+    const { width, height, image, nFrames, ticksPerFrame, } = opts;
     this.width = width;
     this.height = height;
     this.image = image;
-    this.nFrames = nFrames;
+    this.numberOfFrames = nFrames;
     this.ticksPerFrame = ticksPerFrame;
   }
 
   render() {
+    debugger;
     console.log('rendering')
-    this.context.clearRect(0, 0, spriteSheet.width, spriteSheet.height);
     this.context.drawImage(
       this.image, // image src
       this.frameIndex * this.width / this.numberOfFrames, // src x-coord
