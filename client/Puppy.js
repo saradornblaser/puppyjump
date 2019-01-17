@@ -1,7 +1,6 @@
 //puppy class
 import SpriteObject from './SpriteObject'
-const spriteSheet = new Image();
-spriteSheet.src = '/sprites.png'; // this is the URL (from client perspective)
+import { canvas, spriteSheet } from './SpriteObject'
 
 class Puppy extends SpriteObject {
   constructor(width, height, image, nFrames, ticksPerFrame) {
@@ -14,25 +13,25 @@ class Puppy extends SpriteObject {
   }
 
   render() {
-    console.log('rendering')
-    this.context.clearRect(0, 0, spriteSheet.width, spriteSheet.height);
+    // console.log('rendering')
+    this.context.clearRect(0, 0, canvas.width, canvas.height);
     this.context.drawImage(
       this.image, // image src
-      this.frameIndex * this.width / this.numberOfFrames, // src x-coord
+      this.frameIndex * this.width / this.nFrames, // src x-coord
       0, // src y -coord
-      this.width / this.numberOfFrames, // src width
+      this.width / this.nFrames, // src width
       this.height, // src height
       0, // dest x-coord
-      0, // dest y-coord
-      this.width / this.numberOfFrames, // dest width
+      150 - 24, // dest y-coord
+      this.width / this.nFrames, // dest width
       this.height // dest height
     );
   }
 
   update() {
     this.tickCount++;
-    this.frameIndex = Math.floor(this.tickCount / 10) % this.numberOfFrames;
-    console.log('update')
+    this.frameIndex = Math.floor(this.tickCount / 10) % this.nFrames;
+    // console.log('update')
   }
 }
 

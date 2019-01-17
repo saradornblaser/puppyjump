@@ -1,5 +1,5 @@
 module.exports = {
-  entry: ['babel-polyfill', './client/game.js'],
+  entry: ['babel-polyfill', './client/gameLogic.js'],
   mode: 'development',
   output: {
     path: __dirname,
