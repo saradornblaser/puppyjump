@@ -14,11 +14,11 @@ class Puppy extends SpriteObject {
     this.context.drawImage(
       this.image, //src img
       this.frameIndex * this.width / this.nFrames, //src x
-      0, //src y
+      2, //src y
       this.width / this.nFrames, // src w
       this.height, //srch
       0, //dest x
-      150 - 24, //dest y
+      150 - 22, //dest y
       this.width / this.nFrames, //dest w
       this.height //dest h
     );

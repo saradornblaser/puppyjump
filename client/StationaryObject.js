@@ -12,8 +12,8 @@ class StationaryObject extends SpriteObject {
   render() {
     this.context.drawImage(
       this.image, //src img
-      0, //src x
-      61, //src y
+      3, //src x
+      63, //src y
       this.width, //src w
       this.height, //src h
       canvas.width - this.frameIndex, //this.width, //dest x  //this.width will be somethig else, calculated
@@ -30,7 +30,7 @@ class StationaryObject extends SpriteObject {
 
   random() {
     const int = Math.random();
-    if (int < 1 && int > 0.99) {
+    if (int < 1 && int > 0.9) {
       return true;
     }
   }
