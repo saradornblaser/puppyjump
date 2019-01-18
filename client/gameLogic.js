@@ -1,38 +1,49 @@
 //imports
 import Puppy from './Puppy'
-import { canvas, spriteSheet } from './SpriteObject'
+import { canvas, spriteSheet, ctx } from './SpriteObject'
+import JumpingPuppy from './JumpingPuppy';
+import StationaryObject from './StationaryObject'
 // import FlyingObject from './FlyingObject'
 
-//instance declaration
-let walkingPuppy = new Puppy(72, 24, spriteSheet, 2, 10);
+//------------instance declaration------------------//
+let walkingPuppy = new Puppy(72, 24, 2, 10);
+let leapingPuppy = new JumpingPuppy();
+let dogHouse = new StationaryObject(46, 40);
 // let tennisBall = new FlyingObject();
 
+//-----------functions & game logic-----------------//
+let jumping = false;    //default !jumping
 
-//------------------------------------------------------------------------------
-
-let jumping = false;
-//functions & game logic
+//runs entire animation
 function animate() {
-  if (jumping) {
-    console.log("jumping!")
+  ctx.clearRect(0, 0, canvas.width, canvas.height) //clear before rendering
+  if (dogHouse.random()) {
+    console.log('random')
+    dogHouse.render();
+    // dogHouse.update();
   }
-  walkingPuppy.update();
-  walkingPuppy.render();
+
+  if (jumping) {  //render jumping
+    leapingPuppy.render()
+    leapingPuppy.update()
+  } else {        // or render walking
+    walkingPuppy.update();
+    walkingPuppy.render();
+  }
+
   window.requestAnimationFrame(animate);
 }
 //onload is a callback function, assign it to be "animate"
 spriteSheet.onload = animate;
 
+//jump on spacebar press
 window.addEventListener('keypress', jump);
-
 function jump(evt) {
   if (evt.keyCode === 32) {
-    console.log("spacebar!")
-    jumping = true;
-    //need to pause other dog rendering and display jump dog
-    //calculate how long
-    //will be based on gravity function and will be unchanging
   }
+  jumping = true;
+  setTimeout(() => {
+    jumping = false;
+    leapingPuppy.tickCount = 0;
+  }, 1500);
 }
-
-
