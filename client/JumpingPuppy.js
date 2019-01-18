@@ -2,9 +2,12 @@
 import SpriteObject from './SpriteObject'
 
 class JumpingPuppy extends SpriteObject {
-
+  constructor() {
+    super();
+    this.ycoords = [99, 85, 77, 75, 75, 77, 85, 99]
+  }
   render() {
-    const ycoords = [99, 85, 77, 75, 75, 77, 85, 99]
+    // const ycoords = [99, 85, 77, 75, 75, 77, 85, 99]
     this.context.drawImage(
       this.image, //src img
       0, //src x
@@ -12,7 +15,7 @@ class JumpingPuppy extends SpriteObject {
       36, //src w
       24, //src h
       0, //dest x
-      ycoords[this.frameIndex], // dest y
+      this.ycoords[this.frameIndex], // dest y
       36, //dest w
       24 //dest h
     );

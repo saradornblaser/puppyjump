@@ -28,14 +28,17 @@ function animate() {
     dogHouse.render()
     dogHouse.update()
   }
-
-
   if (jumping) {  //render jumping
     leapingPuppy.render()
     leapingPuppy.update()
   } else {        // or render walking
     walkingPuppy.update();
     walkingPuppy.render();
+  }
+  if (canvas.width - dogHouse.frameIndex <= 32 && canvas.width - dogHouse.frameIndex > -34) {
+    if (!jumping || leapingPuppy.ycoords[leapingPuppy.frameIndex] < 150 - 34 - leapingPuppy.height) {
+      console.log("collision!")
+    }
   }
 
   window.requestAnimationFrame(animate);
