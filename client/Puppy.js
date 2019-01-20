@@ -28,6 +28,21 @@ class Puppy extends SpriteObject {
     this.tickCount++;
     this.frameIndex = Math.floor(this.tickCount / 10) % this.nFrames;
   }
+
+  ouch(dogY) {
+    console.log("ouch")
+    this.context.drawImage(
+      this.image, //src img
+      55, //src x
+      65, //src y
+      20, // src w
+      10, //srch
+      36, //dest x
+      dogY - 8, //dest y
+      20, //dest w
+      10 //dest h
+    );
+  }
 }
 
 export default Puppy;

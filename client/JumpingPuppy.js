@@ -2,28 +2,45 @@
 import SpriteObject from './SpriteObject'
 
 class JumpingPuppy extends SpriteObject {
-  constructor() {
+  constructor(width, height) {
     super();
-    this.ycoords = [99, 85, 77, 75, 75, 77, 85, 99]
+    this.width = width;
+    this.height = height;
+    this.ycoords = [99, 85, 77, 75, 77, 85, 99]
   }
   render() {
-    // const ycoords = [99, 85, 77, 75, 75, 77, 85, 99]
     this.context.drawImage(
       this.image, //src img
       0, //src x
       26, //src y
-      36, //src w
-      24, //src h
+      this.width, //src w
+      this.height, //src h
       0, //dest x
       this.ycoords[this.frameIndex], // dest y
-      36, //dest w
-      24 //dest h
+      this.width, //dest w
+      this.height //dest h
     );
   }
 
   update() {
     this.tickCount++;
-    this.frameIndex = Math.floor(this.tickCount / 12);
+    this.frameIndex = Math.floor(this.tickCount / 13);
+  }
+
+  ouch(bubbleY) {
+    console.log(bubbleY)
+    this.context.drawImage(
+      this.image, //src img
+      55, //src x
+      65, //src y
+      20, // src w
+      10, //srch
+      36, //dest x
+      bubbleY, //dest y
+      20, //dest w
+      10 //dest h
+    );
+    debugger
   }
 }
 

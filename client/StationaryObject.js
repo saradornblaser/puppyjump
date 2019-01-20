@@ -3,17 +3,20 @@ import SpriteObject from './SpriteObject'
 import { canvas } from './SpriteObject'
 
 class StationaryObject extends SpriteObject {
-  constructor(width, height) {
+  constructor(width, height, srcx, srcy, probability) {
     super();
     this.width = width;
     this.height = height;
+    this.srcx = srcx;
+    this.srcy = srcy;
+    this.probability = probability;
   }
 
   render() {
     this.context.drawImage(
       this.image, //src img
-      3, //src x
-      63, //src y
+      this.srcx, //src x
+      this.srcy, //src y
       this.width, //src w
       this.height, //src h
       canvas.width - this.frameIndex, //this.width, //dest x  //this.width will be somethig else, calculated
@@ -30,7 +33,7 @@ class StationaryObject extends SpriteObject {
 
   random() {
     const int = Math.random();
-    if (int < 1 && int > 0.9) {
+    if (int > 0 && int < this.probability) {
       return true;
     }
   }
