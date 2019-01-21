@@ -1,3 +1,9 @@
+#canvas-wrapper {
+  display: block;
+  margin: 0 auto;
+  width: 1200;
+}
+
 h2 {
   color: black(73, 73, 227);
   font-family: 'Courier New', Courier, monospace;
@@ -7,13 +13,13 @@ canvas {
   border: 1px solid black;
   text-align: center;
   width: 1200;
-  height: 450;
+  height: 300;
+
 }
 
 #replay-button {
   color: black;
-  border-color: none;
-  background-color: rgb(8, 186, 174);
+  background-color: rgb(36, 153, 216);
   height: 40px;
   width: 160px;
   text-align: center;
@@ -21,4 +27,18 @@ canvas {
   font-size: 16px;
   font-weight: bold;
 }
+
+#points-display{
+  height: 40px;
+  width: 160px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  font-weight: bold;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
 

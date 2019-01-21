@@ -1,13 +1,14 @@
 //puppy class
 import SpriteObject from './SpriteObject'
+import { canvas } from './SpriteObject'
 
 class Puppy extends SpriteObject {
-  constructor(width, height, nFrames, ticksPerFrame) {
+  constructor(width, height, nFrames) {
     super();
     this.width = width;
     this.height = height;
     this.nFrames = nFrames;
-    this.ticksPerFrame = ticksPerFrame;
+
   }
 
   render() {
@@ -18,7 +19,7 @@ class Puppy extends SpriteObject {
       this.width / this.nFrames, // src w
       this.height, //srch
       0, //dest x
-      150 - 22, //dest y
+      canvas.height - 22, //dest y
       this.width / this.nFrames, //dest w
       this.height //dest h
     );
@@ -29,8 +30,7 @@ class Puppy extends SpriteObject {
     this.frameIndex = Math.floor(this.tickCount / 10) % this.nFrames;
   }
 
-  ouch(dogY) {
-    console.log("ouch")
+  ouch() {
     this.context.drawImage(
       this.image, //src img
       55, //src x
@@ -38,7 +38,7 @@ class Puppy extends SpriteObject {
       20, // src w
       10, //srch
       36, //dest x
-      dogY - 8, //dest y
+      canvas.height - this.height - 8, //dest y
       20, //dest w
       10 //dest h
     );

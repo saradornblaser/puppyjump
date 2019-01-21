@@ -1,26 +1,27 @@
-//stationary object class
+//flying object class
 import SpriteObject from './SpriteObject'
 import { canvas } from './SpriteObject'
 
-class StationaryObject extends SpriteObject {
-  constructor(width, height, srcx, srcy) {
+export default class FlyingObject extends SpriteObject {
+  constructor(width, height, xcoords, srcy, nFrames) {
     super();
     this.width = width;
     this.height = height;
-    this.srcx = srcx;
+    this.xcoords = xcoords;
     this.srcy = srcy;
+    this.nFrames = nFrames;
     this.destx;
   }
 
   render() {
     this.context.drawImage(
       this.image, //src img
-      this.srcx, //src x
+      this.xcoords[this.frameIndex],
       this.srcy, //src y
-      this.width, //src w
-      this.height, //src h
-      canvas.width - this.destx, //this.width, //dest x  //this.width will be somethig else, calculated
-      canvas.height - this.height, //dest y
+      this.width, // src w
+      this.height, //srch
+      canvas.width - this.destx, //dest x
+      25, //dest y
       this.width, //dest w
       this.height //dest h
     )
@@ -28,16 +29,14 @@ class StationaryObject extends SpriteObject {
 
   update() {
     this.tickCount++;
-    this.destx = Math.floor(this.tickCount * 1.5);
+    this.frameIndex = Math.floor(this.tickCount / 10) % this.nFrames;
+    this.destx = Math.floor(this.tickCount * 2)
   }
 
   // random(probability) {
   //   const int = Math.random();
   //   if (int > 0 && int < probability) {
   //     return true;
-  //   }
+  //     }
   // }
 }
-
-
-export default StationaryObject;

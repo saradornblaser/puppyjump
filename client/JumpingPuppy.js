@@ -6,7 +6,7 @@ class JumpingPuppy extends SpriteObject {
     super();
     this.width = width;
     this.height = height;
-    this.ycoords = [99, 85, 77, 75, 77, 85, 99]
+    this.ycoords = [99 - 50, 85 - 50, 77 - 50, 75 - 50, 77 - 50, 85 - 50, 99 - 50]
   }
   render() {
     this.context.drawImage(
@@ -27,8 +27,7 @@ class JumpingPuppy extends SpriteObject {
     this.frameIndex = Math.floor(this.tickCount / 13);
   }
 
-  ouch(bubbleY) {
-    console.log(bubbleY)
+  ouch() {
     this.context.drawImage(
       this.image, //src img
       55, //src x
@@ -36,11 +35,10 @@ class JumpingPuppy extends SpriteObject {
       20, // src w
       10, //srch
       36, //dest x
-      bubbleY, //dest y
+      this.ycoords[this.frameIndex] - 8, //dest y
       20, //dest w
       10 //dest h
     );
-    debugger
   }
 }
 
