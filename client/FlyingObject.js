@@ -13,7 +13,7 @@ export default class FlyingObject extends SpriteObject {
     this.destx;
   }
 
-  render() {
+  render(desty) {
     this.context.drawImage(
       this.image, //src img
       this.xcoords[this.frameIndex],
@@ -21,7 +21,7 @@ export default class FlyingObject extends SpriteObject {
       this.width, // src w
       this.height, //srch
       canvas.width - this.destx, //dest x
-      25, //dest y
+      desty, //dest y
       this.width, //dest w
       this.height //dest h
     )

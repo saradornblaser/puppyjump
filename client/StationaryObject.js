@@ -30,13 +30,6 @@ class StationaryObject extends SpriteObject {
     this.tickCount++;
     this.destx = Math.floor(this.tickCount * 1.5);
   }
-
-  // random(probability) {
-  //   const int = Math.random();
-  //   if (int > 0 && int < probability) {
-  //     return true;
-  //   }
-  // }
 }
 
 

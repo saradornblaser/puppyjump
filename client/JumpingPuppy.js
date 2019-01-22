@@ -6,7 +6,7 @@ class JumpingPuppy extends SpriteObject {
     super();
     this.width = width;
     this.height = height;
-    this.ycoords = [99 - 50, 85 - 50, 77 - 50, 75 - 50, 77 - 50, 85 - 50, 99 - 50]
+    this.ycoords = [49, 35, 27, 25, 27, 35, 49]
   }
   render() {
     this.context.drawImage(

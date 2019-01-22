@@ -12,8 +12,8 @@ let pointDisplay = document.getElementById('points-display');
 const walkingPuppy = new Puppy(72, 20, 2);
 const leapingPuppy = new JumpingPuppy(36, 24);
 const dogHouse = new StationaryObject(40, 34, 3, 63);
-const fireHydrant = new StationaryObject(9, 17, 76, 6)
-const fireHydrant2 = new StationaryObject(9, 17, 76, 6)
+const fireHydrant = new StationaryObject(9, 18, 76, 5)
+const fireHydrant2 = new StationaryObject(9, 18, 76, 5)
 
 //-----------functions & game logic-----------------//
 //defaults
@@ -25,6 +25,7 @@ let collision = false;
 fireHydrant.tickCount = 51
 fireHydrant2.tickCount = 51
 let bones = [null, null, null, null, null];
+let balls = [null, null, null, null, null, null, null, null]
 let nextToy = true;
 let points = 0;
 
@@ -33,6 +34,8 @@ function animate() {
   //clear before rendering
   replayButton.hidden = true;
   ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.fillStyle = "aliceblue"
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   //random generations
   if (!doghouse && random(0.01) && fireHydrant.tickCount > 50 && fireHydrant2.tickCount > 50) {
@@ -43,18 +46,26 @@ function animate() {
   if (!hydrant && random(0.05) && dogHouse.tickCount > 100) {
     fireHydrant.tickCount = 0;
     hydrant = true;
-    setTimeout(() => hydrant = false, 10000);
+    setTimeout(() => hydrant = false, 5000);
   }
   if (!hydrant2 && random(0.005) && dogHouse.tickCount > 100 && fireHydrant.tickCount > 50) {
     fireHydrant2.tickCount = 0;
     hydrant2 = true;
-    setTimeout(() => hydrant2 = false, 10000);
+    setTimeout(() => hydrant2 = false, 5000);
   }
 
   for (let i = 0; i < bones.length; i++) {
     if (bones[i] && bones[i].destx > 409) bones[i] = null;
-    if (random(.01) && !bones[i] && nextToy) {  //if bones[i] is null (available)
+    if (random(.005) && !bones[i] && nextToy) {  //if bones[i] is null (available)
       bones[i] = new FlyingObject(9, 9, [42, 51, 62, 73], 31, 4);
+      nextToy = false;
+      setTimeout(() => nextToy = true, 300)
+    }
+  }
+  for (let i = 0; i < balls.length; i++) {
+    if (balls[i] && balls[i].destx > 405) balls[i] = null;
+    if (random(.005) && !balls[i] && nextToy) {  //if balls[i] is null (available)
+      balls[i] = new FlyingObject(5, 5, [5, 12], 54, 2);
       nextToy = false;
       setTimeout(() => nextToy = true, 300)
     }
@@ -64,13 +75,13 @@ function animate() {
   if (doghouse) {
     dogHouse.render(), dogHouse.update();
   }
-  drawGrass();
   if (hydrant) {
     fireHydrant.render(), fireHydrant.update();
   }
   if (hydrant2) {
     fireHydrant2.render(), fireHydrant2.update();
   }
+  drawGrass();
   if (jumping) {  //render jumping
     leapingPuppy.update(), leapingPuppy.render();
   } else {        // or render walking
@@ -79,7 +90,14 @@ function animate() {
   for (let i = 0; i < bones.length; i++) {
     if (bones[i]) {
       bones[i].update()
-      bones[i].render()
+      bones[i].render(25)
+    }
+  }
+  const heights = [40, 50]
+  for (let i = 0; i < balls.length; i++) {
+    if (balls[i]) {
+      balls[i].update()
+      balls[i].render(heights[i % 2])
     }
   }
 
@@ -90,12 +108,12 @@ function animate() {
     }
   }
   if (canvas.width - fireHydrant.destx <= 32 && canvas.width - fireHydrant.destx > -5) {
-    if (!jumping || leapingPuppy.ycoords[leapingPuppy.frameIndex] + leapingPuppy.height >= canvas.height - 16) {
+    if (!jumping || leapingPuppy.ycoords[leapingPuppy.frameIndex] + leapingPuppy.height >= canvas.height - 20) {
       collided()
     }
   }
   if (canvas.width - fireHydrant2.destx <= 32 && canvas.width - fireHydrant2.destx > -5) {
-    if (!jumping || leapingPuppy.ycoords[leapingPuppy.frameIndex] + leapingPuppy.height >= canvas.height - 16) {
+    if (!jumping || leapingPuppy.ycoords[leapingPuppy.frameIndex] + leapingPuppy.height >= canvas.height - 20) {
       collided()
     }
   }
@@ -111,11 +129,22 @@ function animate() {
     }
   }
 
+  if (jumping && leapingPuppy.ycoords[leapingPuppy.frameIndex] < 50) {
+    for (let i = 0; i < balls.length; i++) {
+      if (balls[i] && canvas.width - balls[i].destx < leapingPuppy.width && canvas.width - balls[i].destx > 10) {
+        points += 10;
+        pointDisplay.innerHTML = points + ' points';
+        balls[i] = null;
+      }
+    }
+  }
+
   //next frame
   if (!collision) {
     window.requestAnimationFrame(animate);
   }
 }
+
 //onload is a callback function, assign it to be "animate"
 spriteSheet.onload = animate;
 
