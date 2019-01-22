@@ -22,8 +22,9 @@ let doghouse = false;
 let hydrant = false;
 let hydrant2 = false;
 let collision = false;
-fireHydrant.tickCount = 51
-fireHydrant2.tickCount = 51
+fireHydrant.destx = Infinity;
+fireHydrant2.destx = Infinity;
+dogHouse.destx = Infinity;
 let bones = [null, null, null, null, null];
 let balls = [null, null, null, null, null, null, null, null]
 let nextToy = true;
@@ -38,20 +39,20 @@ function animate() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   //random generations
-  if (!doghouse && random(0.01) && fireHydrant.tickCount > 50 && fireHydrant2.tickCount > 50) {
+  if (random(0.01) && dogHouse.destx > 440 && fireHydrant.destx > 200 && fireHydrant2.destx > 200) {
     dogHouse.tickCount = 0;
+    dogHouse.destx = 0;
     doghouse = true;
-    setTimeout(() => doghouse = false, 10000);
   }
-  if (!hydrant && random(0.05) && dogHouse.tickCount > 100) {
+  if (random(0.05) && fireHydrant.destx > 409 && dogHouse.destx > 200 && fireHydrant2.destx > 50) {
     fireHydrant.tickCount = 0;
+    fireHydrant.destx = 0;
     hydrant = true;
-    setTimeout(() => hydrant = false, 5000);
   }
-  if (!hydrant2 && random(0.005) && dogHouse.tickCount > 100 && fireHydrant.tickCount > 50) {
+  if (random(0.005) && fireHydrant2.destx > 409 && dogHouse.destx > 200 && fireHydrant.destx > 50) {
     fireHydrant2.tickCount = 0;
+    fireHydrant2.destx = 0;
     hydrant2 = true;
-    setTimeout(() => hydrant2 = false, 5000);
   }
 
   for (let i = 0; i < bones.length; i++) {
@@ -81,6 +82,7 @@ function animate() {
   if (hydrant2) {
     fireHydrant2.render(), fireHydrant2.update();
   }
+
   drawGrass();
   if (jumping) {  //render jumping
     leapingPuppy.update(), leapingPuppy.render();
